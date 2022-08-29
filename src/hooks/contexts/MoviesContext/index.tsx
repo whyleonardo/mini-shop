@@ -3,16 +3,16 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { api } from '../../../services/api'
 
 interface MoviesValueProps {
-  popularMovies: never[] | []
+  popularMovies: never[]
 }
 
-const FetchMoviesContext = createContext<MoviesValueProps>({} as MoviesValueProps)
+const MoviesContext = createContext<MoviesValueProps>({} as MoviesValueProps)
 
 export const useMoviesFetch = () => {
-  return useContext(FetchMoviesContext)
+  return useContext(MoviesContext)
 }
 
-export const FetchMoviesProvider = ({ children }: any) => {
+export const MoviesProvider = ({ children }: any) => {
 
 
   const [popularMovies, setPopularMovies] = useState([])
@@ -28,9 +28,9 @@ export const FetchMoviesProvider = ({ children }: any) => {
 
 
   return (
-    <FetchMoviesContext.Provider value={values}>
+    <MoviesContext.Provider value={values}>
       {children}
-    </FetchMoviesContext.Provider>
+    </MoviesContext.Provider>
   )
 }
 

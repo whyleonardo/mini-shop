@@ -1,15 +1,19 @@
-import { FetchMoviesProvider } from './hooks/contexts/FetchMoviesContext'
+import { MoviesProvider } from './hooks/contexts/MoviesContext'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Home } from './pages/Home'
+import { CartProvider } from './hooks/contexts/CartContext'
 
 export const App = () => {
   return (
-    <FetchMoviesProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<Home />} />
-        </Routes>
-      </BrowserRouter>
-    </FetchMoviesProvider>
+
+    <MoviesProvider>
+      <CartProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<Home />} />
+          </Routes>
+        </BrowserRouter>
+      </CartProvider>
+    </MoviesProvider>
   )
 }
