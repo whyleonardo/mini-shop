@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Box, Flex, Grid, Icon, Image, Button, Stack, Text, VStack, Circle, useToast } from '@chakra-ui/react'
 import { useMoviesFetch } from '../../hooks/contexts/MoviesContext/index';
 import { api } from './../../services/api';
-import { FaStar, FaShoppingCart } from 'react-icons/fa'
+import { FaStar, FaShoppingCart, FaHeart } from 'react-icons/fa'
 import { useCart } from '../../hooks/contexts/CartContext';
 
 interface MovieProps {
@@ -17,28 +17,60 @@ const { img } = api
 
 export const Home = () => {
   const { popularMovies } = useMoviesFetch()
-  const { moviesCart, setMoviesCart } = useCart()
-  const toast = useToast()
+
+  const { moviesCart, setMoviesCart, favoriteMovies, setFavoriteMovies } = useCart()
+
+  const toast = useToast({
+    duration: 2000,
+    isClosable: true,
+    position: 'bottom',
+
+  })
 
   const filteredCartMoviesID = moviesCart.map((movie: MovieProps) => movie.id)
+  const filteredFavoritestMoviesID = favoriteMovies.map((movie: MovieProps) => movie.id)
 
-  const handleAddToFavorites = (movie: MovieProps) => { }
 
-  const handleAddToCart = ({ id, title }: MovieProps) => {
+  const handleAddToFavorites = ({ id, title, poster_path }: MovieProps) => {
+    filteredFavoritestMoviesID.includes(id) == false &&
+      popularMovies.filter((movie: MovieProps) => movie.id !== id &&
+        setFavoriteMovies([...favoriteMovies,
+        {
+          id: id,
+          title: title,
+          img: poster_path
+        }
+        ]))
+    toast({
+      title: 'Filme adicionado aos favoritos!',
+      status: 'success',
+
+    })
+  }
+
+  const handleDeleteMovieFromFavorites = ({ id }: MovieProps) => {
+    const removeMovieFromCart = favoriteMovies.map((movie: MovieProps) => movie).filter((movie: MovieProps) => movie.id !== id && movie)
+    setFavoriteMovies(removeMovieFromCart)
+    toast({
+      title: 'Filme removido dos favoritos!',
+      status: 'info',
+    })
+  }
+
+  const handleAddToCart = ({ id, title, poster_path }: MovieProps) => {
     filteredCartMoviesID.includes(id) == false &&
       popularMovies.filter((movie: MovieProps) => movie.id !== id &&
         setMoviesCart([...moviesCart,
         {
           id: id,
-          title: title
+          title: title,
+          img: poster_path
         }
         ]))
     toast({
       title: 'Filme adicionado ao carrinho!',
       status: 'success',
-      duration: 2000,
-      isClosable: true,
-      position: 'top',
+
     })
 
   }
@@ -49,23 +81,13 @@ export const Home = () => {
     toast({
       title: 'Filme removido do carrinho!',
       status: 'info',
-      duration: 2000,
-      isClosable: true,
-      position: 'top',
     })
   }
 
   return (
     <>
-      <Box position='relative'>
-        <Icon w='50px' h='50px' as={FaShoppingCart} />
-        <Circle position='absolute' bottom='1' size='25px' bg='tomato' color='white'>
-          <Text>{moviesCart && moviesCart.length}</Text>
-        </Circle>
 
-      </Box>
-
-      <Grid templateColumns='repeat(4, 1fr)' color='white' gap={6} >
+      <Grid templateColumns='repeat(1)' color='white' gap={4} >
         {popularMovies &&
           popularMovies.map((movie: MovieProps) => (
             <VStack border='1px' key={movie.id}>
@@ -89,9 +111,9 @@ export const Home = () => {
               />
 
               <Button
-                bg='gray.500'
+                bg={filteredFavoritestMoviesID.includes(movie.id) ? 'red.500' : 'gray.500'}
                 color='black'
-                onClick={() => handleAddToFavorites(movie)}
+                onClick={filteredFavoritestMoviesID.includes(movie.id) ? () => handleDeleteMovieFromFavorites(movie) : () => handleAddToFavorites(movie)}
               >
                 Favorite
               </Button>

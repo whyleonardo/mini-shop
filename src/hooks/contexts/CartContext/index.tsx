@@ -3,10 +3,8 @@ import { createContext, useContext, useState } from "react"
 interface CartProps {
   moviesCart: any
   setMoviesCart: any
-}
-
-interface PropsAny {
-
+  favoriteMovies: any
+  setFavoriteMovies: any
 }
 
 const CartContext = createContext<CartProps>({} as CartProps)
@@ -18,11 +16,15 @@ export const useCart = () => {
 
 export const CartProvider = ({ children }: any) => {
 
-  const [moviesCart, setMoviesCart] = useState<PropsAny[]>([])
+  const [moviesCart, setMoviesCart] = useState([])
+  const [favoriteMovies, setFavoriteMovies] = useState([])
+
 
   const values = {
     moviesCart,
-    setMoviesCart
+    setMoviesCart,
+    favoriteMovies,
+    setFavoriteMovies
   }
 
   return (

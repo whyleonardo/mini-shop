@@ -16,10 +16,13 @@ export const MoviesProvider = ({ children }: any) => {
 
 
   const [popularMovies, setPopularMovies] = useState([])
+  const [searchedMovies, setSearchedMovies] = useState([])
+
 
   useEffect(() => {
-    axios.get(api.url + api.key)
+    axios.get(`${api.url}${api.popular}${api.key}`)
       .then(res => setPopularMovies(res.data.results))
+
   }, [])
 
   const values = {
