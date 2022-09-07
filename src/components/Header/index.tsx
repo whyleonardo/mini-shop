@@ -1,10 +1,13 @@
-import { Flex } from "@chakra-ui/react"
+import { Button, Flex } from "@chakra-ui/react"
+import { Link, useNavigate } from "react-router-dom"
 import { useCart } from "../../hooks/contexts/CartContext"
 import { CartIcon } from "../Icons/CartIcon"
 import { FavoriteIcon } from "../Icons/FavoriteIcon"
 import { SearchMovieInput } from "../SearchMovieInput"
 
 export const Header = () => {
+
+  const navigate = useNavigate()
   return (
     <Flex
       bg='red.500'
@@ -14,16 +17,18 @@ export const Header = () => {
       px='1rem'
       py='1.5rem'
       alignItems='center'
-      justifyContent='end'
+      justifyContent='space-between'
     >
-      <Flex
+      <Link to='/'>Oi</Link>
+      < Flex
         alignItems='center'
       >
+
         <SearchMovieInput />
         <CartIcon />
         <FavoriteIcon />
-      </Flex>
-    </Flex>
+      </Flex >
+    </Flex >
   )
 }
 

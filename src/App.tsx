@@ -6,17 +6,18 @@ import { Header } from './components/Header/index';
 import { Search } from './pages/Search';
 
 export const App = () => {
+
   return (
-    <MoviesProvider>
-      <CartProvider>
-        <BrowserRouter>
+    <BrowserRouter>
+      <MoviesProvider>
+        <CartProvider>
           <Header />
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/search' element={<Search />} />
           </Routes>
-        </BrowserRouter>
-      </CartProvider>
-    </MoviesProvider>
+        </CartProvider>
+      </MoviesProvider>
+    </BrowserRouter>
   )
 }

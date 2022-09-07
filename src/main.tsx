@@ -7,7 +7,8 @@ const theme = extendTheme({
   styles: {
     global: {
       body: {
-        backgroundColor: 'black'
+        backgroundColor: 'black',
+        fontFamily: 'Inter, sans- serif'
       }
     }
   }
