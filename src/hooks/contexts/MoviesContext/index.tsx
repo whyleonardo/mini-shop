@@ -6,6 +6,7 @@ import { api } from '../../../services/api'
 interface MoviesValueProps {
   popularMovies: never[]
   searchedMovies: never[]
+  setSearchedMovies: React.Dispatch<React.SetStateAction<never[]>>
 }
 
 export interface MovieProps {
@@ -59,9 +60,8 @@ export const MoviesProvider = ({ children }: any) => {
   const query = searchParams.get('q')
 
   useEffect(() => {
-    axios.get(`${api.url}${api.popular}${api.key}`)
+    axios.get(`${api.url}${api.popular}${api.key}&language=pt-BR`)
       .then(res => setPopularMovies(res.data.results))
-
   }, [])
 
   useEffect(() => {
@@ -71,7 +71,8 @@ export const MoviesProvider = ({ children }: any) => {
 
   const values = {
     popularMovies,
-    searchedMovies
+    searchedMovies,
+    setSearchedMovies
   }
 
   return (

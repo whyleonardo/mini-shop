@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react'
 import { useCart } from '../../hooks/contexts/CartContext'
 import { api } from '../../services/api'
-import { FaTrash } from 'react-icons/fa'
+import { GrClose } from 'react-icons/gr'
 import { MovieProps } from '../../hooks/contexts/MoviesContext'
 
 
@@ -23,9 +23,9 @@ interface CartMenuProps {
 
 const { img } = api
 
-export const CartMenu = ({ isOpen, onClose }: CartMenuProps) => {
+export const FavoritesMenu = ({ isOpen, onClose }: CartMenuProps) => {
 
-  const { moviesCart, handleDeleteMovieFromCart, handleClearAllCart, cartSum } = useCart()
+  const { favoriteMovies, handleDeleteMovieFromFavorites } = useCart()
 
   return (
     <>
@@ -38,7 +38,7 @@ export const CartMenu = ({ isOpen, onClose }: CartMenuProps) => {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>Carrinho</DrawerHeader>
+          <DrawerHeader>Favoritos</DrawerHeader>
 
           <DrawerBody
             sx={{
@@ -53,7 +53,7 @@ export const CartMenu = ({ isOpen, onClose }: CartMenuProps) => {
             }}
           >
             <VStack align='start'>
-              {moviesCart && moviesCart.map((movie: MovieProps) => (
+              {favoriteMovies && favoriteMovies.map((movie: MovieProps) => (
                 <Flex
                   position='relative'
                   align='center'
@@ -88,9 +88,9 @@ export const CartMenu = ({ isOpen, onClose }: CartMenuProps) => {
                     bg='none'
                     _hover={{ bg: 'none' }}
                     _focus={{ bg: 'none' }}
-                    onClick={() => handleDeleteMovieFromCart(movie)}
+                    onClick={() => handleDeleteMovieFromFavorites(movie)}
                   >
-                    <Icon as={FaTrash}
+                    <Icon as={GrClose}
                       color='tomato'
                       _hover={{ color: 'red' }}
                     />
@@ -105,9 +105,6 @@ export const CartMenu = ({ isOpen, onClose }: CartMenuProps) => {
             display='flex'
             justifyContent='space-between'
           >
-            <Text fontWeight='bold'>
-              Total: R${cartSum ? cartSum : 0}
-            </Text>
             <Flex>
               {/* <Button
                 colorScheme='red'
@@ -115,18 +112,19 @@ export const CartMenu = ({ isOpen, onClose }: CartMenuProps) => {
               >
                 Voltar
               </Button> */}
-              <Button
+              {/* <Button
                 mr={1}
                 colorScheme='red'
                 disabled={!moviesCart.length}
                 onClick={handleClearAllCart}
               >
                 Limpar Carrinho
-              </Button>
+              </Button> */}
               <Button
                 colorScheme='blue'
+                onClick={onClose}
               >
-                Continuar
+                Fechar
               </Button>
             </Flex>
           </DrawerFooter>

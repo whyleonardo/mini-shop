@@ -8,7 +8,8 @@ const theme = extendTheme({
     global: {
       body: {
         backgroundColor: 'black',
-        fontFamily: 'Inter, sans- serif'
+        fontFamily: 'Inter, sans- serif',
+        '&::-webkit-scrollbar': { display: 'none' }
       }
     }
   }

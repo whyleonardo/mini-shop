@@ -5,8 +5,8 @@ import { CartMenu } from './../../CartMenu/index'
 
 export const CartIcon = () => {
 
-  const { isOpen, onOpen, onClose } = useDisclosure()
   const { moviesCart } = useCart()
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     <Button

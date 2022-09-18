@@ -1,15 +1,18 @@
-import { Circle, Button, Icon, Text } from "@chakra-ui/react"
+import { Circle, Button, Icon, Text, useDisclosure } from "@chakra-ui/react"
 import { FaHeart } from "react-icons/fa"
 import { useCart } from "../../../hooks/contexts/CartContext"
+import { FavoritesMenu } from "../../FavoritesMenu"
 
 
 export const FavoriteIcon = () => {
   const { favoriteMovies } = useCart()
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
 
     <Button
       position='relative'
+      onClick={onOpen}
       bg='none'
       _hover={{ bg: 'none' }}
       _active={{ bg: 'none' }}
@@ -34,6 +37,11 @@ export const FavoriteIcon = () => {
           {favoriteMovies && favoriteMovies.length}
         </Text>
       </Circle>
+      <FavoritesMenu
+        isOpen={isOpen}
+        onOpen={onOpen}
+        onClose={onClose}
+      />
     </Button>
   )
 }

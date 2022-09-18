@@ -1,21 +1,18 @@
 import { MoviesProvider } from './hooks/contexts/MoviesContext'
-import { BrowserRouter, Route, Routes, Outlet } from 'react-router-dom'
-import { Home } from './pages/Home'
+import { BrowserRouter } from 'react-router-dom'
 import { CartProvider } from './hooks/contexts/CartContext'
-import { Header } from './components/Header/index';
-import { Search } from './pages/Search';
+import { Header } from './components/Header'
+import { AnimatedRoutes } from './components/AnimatedRoutes/index';
+
+import './styles/styles.css'
 
 export const App = () => {
-
   return (
     <BrowserRouter>
       <MoviesProvider>
         <CartProvider>
           <Header />
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/search' element={<Search />} />
-          </Routes>
+          <AnimatedRoutes />
         </CartProvider>
       </MoviesProvider>
     </BrowserRouter>
