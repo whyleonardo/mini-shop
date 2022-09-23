@@ -7,6 +7,7 @@ interface MoviesValueProps {
   popularMovies: never[]
   searchedMovies: never[]
   setSearchedMovies: React.Dispatch<React.SetStateAction<never[]>>
+  query: any
 }
 
 export interface MovieProps {
@@ -65,14 +66,15 @@ export const MoviesProvider = ({ children }: any) => {
   }, [])
 
   useEffect(() => {
-    axios.get(`${url}${search}?${key}&query=${query}`)
+    axios.get(`${url}${search}?${key}&query=${query}&language=pt-BR`)
       .then(res => setSearchedMovies(res.data.results))
   }, [query])
 
   const values = {
     popularMovies,
     searchedMovies,
-    setSearchedMovies
+    setSearchedMovies,
+    query
   }
 
   return (

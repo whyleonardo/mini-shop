@@ -2,29 +2,21 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from "react-router-dom"
 import { api } from './../../services/api'
 import axios from 'axios'
-import { Button, Flex, Image, VStack, Text, Link, chakra, shouldForwardProp } from '@chakra-ui/react'
+import { Flex, Image, VStack, Text, Link, chakra, shouldForwardProp, Icon, Divider, Spacer } from '@chakra-ui/react'
 import { isValidMotionProp, motion } from 'framer-motion'
 import { SpinnerLoading } from '../../components/SpinnerLoading'
+import { FaRegMoneyBillAlt, FaInfoCircle, FaRegCalendarAlt, FaStar, FaExternalLinkAlt } from 'react-icons/fa'
 
 const { url, key, img } = api
-
-interface ProductionCompanies {
-  id: number
-  logo_path: string
-  name: string
-  origin_country: string
-}
 
 interface MovieInfoProps {
   title: string
   poster_path: string
   homepage: string
-  genres: Array<number>
   overview: string
-  production_companies: Array<ProductionCompanies>
+  status: string
   release_date: Date
   revenue: number
-  status: string
   vote_average: number
 }
 
@@ -67,6 +59,7 @@ export const Movie = () => {
   const { movieID } = useParams()
   const navigate = useNavigate()
 
+  const movieReleaseDate = new Date(movieInfo.release_date)
   const movieOverview = movieInfo.overview
   const movieRevenue = movieInfo.revenue
   const movieOverviewIndex = movieOverview?.indexOf('Servidor')
@@ -76,28 +69,25 @@ export const Movie = () => {
     setTimeout(() => {
       axios.get(`${url}/3/movie/${movieID}?${key}&language=pt-BR`)
         .then(res => setMovieInfo(res.data))
-    }, 100);
+    }, 0);
   }, [])
 
   return (
     <FlexChakra
+
       display='flex'
-      border='2px'
       mx='2rem'
       h={{ md: 'calc(100vh - 6rem)' }}
       variants={variants}
       initial='hidden'
       animate='visible'
       exit='exit'
-      // justifyContent='center'
       mt={'4.5rem'}
     >
       {
         movieInfo
           ?
           <Flex
-            border='2px'
-            borderColor='yellow'
             p='.5rem'
             w='100%'
             justifyContent='space-around'
@@ -105,22 +95,21 @@ export const Movie = () => {
             gap='1rem'
           >
             <VStack
-              border='2px'
-              borderColor='red'
-              p='0'
+              alignSelf='center'
+              p={{ base: '1rem', sm: '1rem', md: '2rem' }}
             >
               <Image
-                w='22rem'
+                w={{ base: '16rem', sm: '16rem', md: '22rem' }}
                 rounded='5px'
                 src={img + movieInfo.poster_path}
               />
             </VStack>
 
             <VStack
-              border='2px'
-              borderColor='blue'
               maxW={{ base: '100%', sm: '100%', md: '50%' }}
+              p={{ base: '1rem', sm: '1rem', md: '2rem' }}
               px='1rem'
+              alignSelf='center'
             >
               <Text
                 fontSize='24px'
@@ -129,13 +118,6 @@ export const Movie = () => {
                 {movieInfo.title}
               </Text>
 
-              <Link
-                href={movieInfo.homepage}
-                target='_blank'
-              >
-                Página Oficial
-              </Link>
-
               <Text
                 fontSize='16px'
                 as='p'
@@ -143,20 +125,79 @@ export const Movie = () => {
                 {filteredMovieOverview}
               </Text>
 
-              <Text
-                fontSize='24px'
-                as='strong'
-              >
-                {movieRevenue?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-              </Text>
+              <Spacer />
 
-              <Text
-                fontSize='24px'
-                as='strong'
-              >
-                {movieInfo.vote_average}
-              </Text>
+              <Divider
+                orientation='horizontal'
+              />
+              <Spacer />
 
+              <Flex
+                gap='.5rem'
+                alignItems='center'
+                alignSelf='start'
+              >
+                <Icon
+                  size='1rem'
+                  as={FaExternalLinkAlt}
+                />
+                <Link
+                  href={movieInfo.homepage}
+                  target='_blank'
+                >
+                  Página Oficial
+                </Link>
+              </Flex>
+
+              <Flex
+                gap='.5rem'
+                alignItems='center'
+                alignSelf='start'
+              >
+                <Text
+                  fontSize='18px'
+                  as='strong'
+                >
+                  R$ {movieRevenue?.toLocaleString('pt-BR')}
+                </Text>
+              </Flex>
+
+              <Flex
+                gap='.5rem'
+                alignItems='center'
+                alignSelf='start'
+              >
+                <Icon
+                  size='1rem'
+                  as={FaRegCalendarAlt}
+                />
+
+                <Text
+                  fontSize='18px'
+                  as='strong'
+                >
+                  {movieReleaseDate.toLocaleDateString("pt-BR")}
+                </Text>
+              </Flex>
+
+              <Flex
+                gap='.5rem'
+                alignItems='center'
+                alignSelf='start'
+              >
+                <Icon
+                  size='1rem'
+                  as={FaStar}
+                  color='yellow.500'
+                />
+
+                <Text
+                  fontSize='18px'
+                  as='strong'
+                >
+                  {movieInfo?.vote_average?.toFixed(1)}
+                </Text>
+              </Flex>
             </VStack>
           </Flex >
 

@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { Button, Flex, Icon, Input, useDisclosure, keyframes, useToast } from "@chakra-ui/react"
+import {
+  Button, Flex, Icon, Input, useDisclosure, useToast, Show
+} from "@chakra-ui/react"
 import axios from "axios"
-
-import { useMovies } from "../../hooks/contexts/MoviesContext"
 import { SearchAutoComplete } from './../SearchAutoComplete/index';
-
 import { FaSearch } from 'react-icons/fa'
 import { api } from "../../services/api"
 
@@ -23,8 +22,6 @@ export const SearchMovieInput = () => {
     isClosable: true,
     position: 'bottom',
   })
-
-  const { searchedMovies } = useMovies()
 
   const handleSearchMovieEnter = ({ keyCode }: any) => {
     if (keyCode === 13) {
@@ -54,96 +51,85 @@ export const SearchMovieInput = () => {
   }, [searchValue])
 
   return (
-
-    < Flex
-      position='relative'
-      right='-50'
-      cursor='pointer'
-      onMouseLeave={onClose}
-    >
-
-      <Input
-        onChange={(e) => setSearchValue(e.target.value)}
-        onKeyDown={(e) => handleSearchMovieEnter(e)}
-        onMouseEnter={onOpen}
-        value={searchValue}
-        w='18.75rem'
-        pr='3.5rem'
-      />
-
-      {
-        searchValue.length > 1 && (
-          <SearchAutoComplete
-            isOpen={isOpen}
-            onClose={onClose}
-            searchedMovies={searchAutoCompleteValue}
+    <>
+      <Show breakpoint='(min-width: 768px)'>
+        <Flex
+          position='relative'
+          cursor='pointer'
+          onMouseLeave={onClose}
+        >
+          <Input
+            borderColor='white'
+            onChange={(e) => setSearchValue(e.target.value)}
+            onKeyDown={(e) => handleSearchMovieEnter(e)}
+            onMouseEnter={onOpen}
+            value={searchValue}
+            w='18.75rem'
+            pr='3.5rem'
           />
-        )
-      }
 
-      <Button
-        onClick={handleSearchMovie}
-        disabled={searchValue == ''}
-        position='absolute'
-        right='0'
-        w='1rem'
-        h='full'
-        bg='none'
-        zIndex='2'
-      >
-        <Icon
-          as={FaSearch}
-        />
-      </Button>
-    </Flex >
+          {
+            searchValue.length > 1 && (
+              <SearchAutoComplete
+                isOpen={isOpen}
+                onClose={onClose}
+                searchedMovies={searchAutoCompleteValue}
+              />
+            )
+          }
+
+          <Button
+            onClick={handleSearchMovie}
+            disabled={searchValue == ''}
+            position='absolute'
+            right='0'
+            w='1rem'
+            h='full'
+            bg='none'
+            zIndex='2'
+          >
+            <Icon
+              as={FaSearch}
+            />
+          </Button>
+        </Flex >
+      </Show >
+
+      <Show breakpoint='(max-width: 767px)'>
+        <Flex
+          position='relative'
+          w='13rem'
+          zIndex={1000}
+          px='.5rem'
+        >
+          <Input
+            borderColor='white'
+            onChange={(e) => setSearchValue(e.target.value)}
+            onKeyDown={(e) => handleSearchMovieEnter(e)}
+            onMouseEnter={onOpen}
+            value={searchValue}
+            w='18.75rem'
+            pr='3.5rem'
+          />
+
+          <Button
+            onClick={handleSearchMovie}
+            disabled={searchValue == ''}
+            position='absolute'
+            right='2'
+            w='1rem'
+            h='full'
+            bg='none'
+            zIndex='2'
+          >
+            <Icon
+              as={FaSearch}
+            />
+          </Button>
+        </Flex>
+      </Show >
+    </>
   )
 }
-
-  // < Flex
-    //   position='relative'
-    //   cursor='pointer'
-    //   align='center'
-    //   onMouseLeave={onClose}
-    // >
-    //   {
-    //     !isOpen &&
-    //     <Button
-    //       onMouseEnter={onOpen}
-    //     >
-    //       <Icon
-    //         as={FaSearch}
-    //       />
-    //     </Button>
-    //   }
-
-    //   {
-    //     isOpen &&
-    //     <>
-    //       <Input
-    //         onChange={(e) => setSearchValue(e.target.value)}
-    //         onKeyDown={(e) => handleSearchMovieEnter(e)}
-    //         value={searchValue}
-    //         as={motion.input}
-    //         animation={animation}
-    //         pr='3.5rem'
-    //       />
-    //       <Button
-    //         onClick={handleSearchMovie}
-    //         disabled={searchValue == ''}
-    //         position='absolute'
-    //         right='0'
-    //         w='1rem'
-    //         h='2rem'
-    //         mr='.5rem'
-    //         bg='none'
-    //         zIndex='2'
-    //       >
-    //         <Icon
-    //           as={FaSearch}
-    //         />
-    //       </Button>
-    //     </>
-    //   }
-    // </Flex >
 
 

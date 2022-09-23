@@ -15,6 +15,7 @@ export const CartIcon = () => {
       bg='none'
       _hover={{ bg: 'none' }}
       _active={{ bg: 'none' }}
+      p='0'
     >
       <Icon
         w='2rem'

@@ -18,7 +18,7 @@ export const Header = () => {
       h='3.5rem'
       w='100vw'
       as='header'
-      px='1rem'
+      px='.8rem'
       py='1.5rem'
       alignItems='center'
       justifyContent='space-between'
@@ -31,12 +31,11 @@ export const Header = () => {
         ? <BackHomepage />
         : <Link to='/' >Oi</Link>
       }
-
-      <SearchMovieInput />
-
       < Flex
         alignSelf='center'
+        gap='0.5rem'
       >
+        <SearchMovieInput />
         <CartIcon />
         <FavoriteIcon />
       </Flex >

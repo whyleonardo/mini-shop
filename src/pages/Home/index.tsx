@@ -1,5 +1,5 @@
 import { MovieCard } from '../../components/MovieCard'
-import { Flex, Grid, Text, chakra, shouldForwardProp, VStack } from '@chakra-ui/react'
+import { Flex, Grid, chakra, shouldForwardProp } from '@chakra-ui/react'
 import { useMovies } from '../../hooks/contexts/MoviesContext/index'
 import { motion, isValidMotionProp } from 'framer-motion'
 import { SpinnerLoading } from '../../components/SpinnerLoading'
@@ -35,9 +35,9 @@ export const Home = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      setLoading(false);
-    }, 500);
-  }, []);
+      setLoading(false)
+    }, 500)
+  }, [])
 
   return (
     <>
@@ -45,6 +45,7 @@ export const Home = () => {
         !loading
           ?
           <FlexChakra
+            px='1rem'
             display='flex'
             flexDirection='column'
             initial={{ opacity: 0, translateY: -50 }}
@@ -67,7 +68,7 @@ export const Home = () => {
               color='white'
               justifyContent='center'
               mt='2rem'
-              gap={4}
+              gap={5}
             >
               {popularMovies &&
                 popularMovies.map((movie: PopularMovies) => (
