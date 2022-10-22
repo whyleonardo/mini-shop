@@ -13,6 +13,7 @@ import { useCart } from '../../hooks/contexts/CartContext'
 import { api } from '../../services/api'
 import { FaTrash } from 'react-icons/fa'
 import { MovieProps } from '../../hooks/contexts/MoviesContext'
+import { FormModal } from '../FormModal'
 
 
 interface CartMenuProps {
@@ -109,12 +110,6 @@ export const CartMenu = ({ isOpen, onClose }: CartMenuProps) => {
               Total: R${cartSum ? cartSum : 0}
             </Text>
             <Flex>
-              {/* <Button
-                colorScheme='red'
-                onClick={onClose}
-              >
-                Voltar
-              </Button> */}
               <Button
                 mr={1}
                 colorScheme='red'
@@ -123,11 +118,7 @@ export const CartMenu = ({ isOpen, onClose }: CartMenuProps) => {
               >
                 Limpar Carrinho
               </Button>
-              <Button
-                colorScheme='blue'
-              >
-                Continuar
-              </Button>
+              <FormModal />
             </Flex>
           </DrawerFooter>
         </DrawerContent>

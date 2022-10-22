@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 interface PopularMovies {
   id: string
   genre_ids: any
+  overview: string
   poster_path: string
   release_date: Date
   title: string
@@ -28,6 +29,32 @@ const TextChakra = chakra(motion.h2, {
   shouldForwardProp: (prop) => isValidMotionProp(prop) || shouldForwardProp(prop),
 })
 
+const variants = {
+  hidden: {
+    opacity: 0,
+    translateY: -50,
+    transition: {
+      duration: 0.7
+    }
+  },
+
+  visible: {
+    opacity: 1,
+    translateY: 0,
+    transition: {
+      duration: 0.7
+    }
+  },
+
+  exit: {
+    opacity: 0,
+    translateX: 50,
+    transition: {
+      duration: 1.2
+    }
+  }
+}
+
 export const Home = () => {
   const [loading, setLoading] = useState(true)
 
@@ -45,30 +72,30 @@ export const Home = () => {
         !loading
           ?
           <FlexChakra
-            px='1rem'
             display='flex'
+            px='1rem'
             flexDirection='column'
-            initial={{ opacity: 0, translateY: -50 }}
-            animate={{ opacity: 1, translateY: 0 }}
-            exit={{ opacity: 0, translateX: 50 }}
-            // @ts-ignore
-            transition={{ duration: 0.7 }}
+            variants={variants}
+            initial='hidden'
+            animate='visible'
+            exit='exit'
             mb='2rem'
           >
             <TextChakra
-              mt='6rem'
+              mt='3rem'
               fontSize='2rem'
               textAlign='center'
+              color='black'
             >
               Filmes Mais Populares
             </TextChakra>
 
             <Grid
-              gridTemplateColumns={{ sm: 'repeat(1, 25rem)', md: 'repeat(3, 20rem)', xl: 'repeat(4, 20rem)', '2xl': 'repeat(10, 20rem)' }}
-              color='white'
+              gridTemplateColumns={{ sm: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)', xl: 'repeat(3, 1fr)', }}
               justifyContent='center'
               mt='2rem'
-              gap={5}
+              gap='8'
+              color='black'
             >
               {popularMovies &&
                 popularMovies.map((movie: PopularMovies) => (

@@ -1,10 +1,9 @@
 import { Grid, Icon, Text, Image, Button, VStack, chakra, shouldForwardProp, Flex } from '@chakra-ui/react'
 import { isValidMotionProp, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import { FaStar } from 'react-icons/fa'
+import { FaTimes } from 'react-icons/fa'
 import { MovieCard } from '../../components/MovieCard'
 import { SpinnerLoading } from '../../components/SpinnerLoading'
-import { useCart } from '../../hooks/contexts/CartContext'
 import { useMovies } from "../../hooks/contexts/MoviesContext"
 
 interface SearchedMovies {
@@ -31,6 +30,31 @@ const TextChakra = chakra(motion.h2, {
   shouldForwardProp: (prop) => isValidMotionProp(prop) || shouldForwardProp(prop),
 })
 
+const variants = {
+  hidden: {
+    opacity: 0,
+    translateY: -50,
+    transition: {
+      duration: 0.7
+    }
+  },
+
+  visible: {
+    opacity: 1,
+    translateY: 0,
+    transition: {
+      duration: 0.7
+    }
+  },
+
+  exit: {
+    opacity: 0,
+    translateX: 50,
+    transition: {
+      duration: 0.3
+    }
+  }
+}
 
 export const Search = () => {
   const [loading, setLoading] = useState(true)
@@ -52,11 +76,10 @@ export const Search = () => {
             px='1rem'
             display='flex'
             flexDirection='column'
-            initial={{ opacity: 0, translateY: -50 }}
-            animate={{ opacity: 1, translateY: 0 }}
-            exit={{ opacity: 0, translateX: 50 }}
-            // @ts-ignore
-            transition={{ duration: 0.7 }}
+            variants={variants}
+            initial='hidden'
+            animate='visible'
+            exit='exit'
             mb='2rem'
           >
             <TextChakra
@@ -64,23 +87,34 @@ export const Search = () => {
               fontSize='2rem'
               textAlign='center'
             >
-              Resultados de: {query}
+              {!searchedMovies.length
+                ? 'Ops, não encontramos nenhum filme'
+                : `Resultados de: ${query}`}
             </TextChakra>
 
-            <Grid
-              gridTemplateColumns={{ sm: 'repeat(1, 25rem)', md: 'repeat(3, 20rem)', xl: 'repeat(4, 20rem)', '2xl': 'repeat(10, 20rem)' }}
-              color='white'
-              justifyContent='center'
-              mt='2rem'
-              gap={5}
-            >
-              {searchedMovies &&
-                searchedMovies.map((movie: SearchedMovies) => (
-                  <MovieCard
-                    movie={movie} />
-                ))
-              }
-            </Grid>
+
+            {!searchedMovies.length
+              ?
+              <Flex alignSelf='center'>
+                <Icon w='5rem' h='5rem' as={FaTimes} />
+              </Flex>
+
+              :
+              <Grid
+                gridTemplateColumns={{ sm: 'repeat(1, 25rem)', md: 'repeat(3, 20rem)', xl: 'repeat(4, 20rem)', '2xl': 'repeat(10, 20rem)' }}
+                color='white'
+                justifyContent='center'
+                mt='2rem'
+                gap={5}
+              >
+                {searchedMovies &&
+                  searchedMovies.map((movie: SearchedMovies) => (
+                    <MovieCard
+                      movie={movie} />
+                  ))
+                }
+              </Grid>
+            }
           </FlexChakra>
 
           :
