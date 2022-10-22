@@ -19,7 +19,7 @@ const theme = extendTheme({
   styles: {
     global: {
       body: {
-        backgroundColor: 'brand.100',
+        backgroundColor: 'white',
         fontFamily: 'Inter, sans- serif',
         '&::-webkit-scrollbar': { display: 'none' }
       }
